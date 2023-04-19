@@ -1,0 +1,74 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.kimi.mapper.ShopMapper">
+	
+	<!-- criteria(검색조건) -->
+	<sql id="criteria">
+		    <if test="keyword != null">
+			    name like '%' || #{keyword} || '%' and
+			</if>
+	</sql>
+
+	
+	<!-- 상품 검색 -->
+	<select id="getGoodsList" resultType="com.kimi.model.ProductVO">
+	
+		<![CDATA[
+		    select * from(
+		        select /*+INDEX_DESC(product SYS_C007491)*/ rownum as rn, id, name, price
+		        from product
+		        where 
+	    ]]>
+	    
+	    <include refid="criteria"></include>
+	    
+	    <![CDATA[
+	    		        
+		        rownum <= #{pageNum} * #{amount} 
+	        	)
+	        where rn > (#{pageNum} -1) * #{amount}
+		]]>	  		
+	
+	</select>
+	
+	<!-- 상품 총 개수 -->
+	<select id="goodsGetTotal" resultType="int">
+	
+		select count(*) from product
+		where
+		<include refid="criteria"></include> 
+		id >0
+		
+	</select>
+	
+	<select id="getCate1" resultType="com.kimi.model.ProductVO">
+		select * from product 
+		where category = 'soju'
+	</select>
+	
+	<select id="getCate2" resultType="com.kimi.model.ProductVO">
+		select * from product 
+		where category = 'beer'
+	</select>
+	
+	<select id="getCate3" resultType="com.kimi.model.ProductVO">
+		select * from product 
+		where category = 'makgeolli'
+	</select>
+	
+	<select id="getCate4" resultType="com.kimi.model.ProductVO">
+		select * from product 
+		where category = 'whisky'
+	</select>
+	
+	
+	<!-- 상품 정보 -->
+	<select id="getGoodsInfo" resultType="com.kimi.model.ProductVO">
+	
+			select id, name, price, origin, volume, alcohol, stock, info
+			from product
+			where id = #{id}	
+	
+	</select>
+  </mapper>

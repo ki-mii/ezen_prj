@@ -1,0 +1,84 @@
+@charset "UTF-8";
+*{
+	margin: 0;
+	padding:0;
+}
+
+/* 화면 전체 렙 */
+.wrapper{
+	width: 100%;	
+}
+
+/* content 랩 */
+.wrap{
+	width : 500px;
+	margin: auto;
+}
+
+
+/*유효성 검사 문구*/
+.final_id_ck{
+	margin-left: 300px;
+    color: #0d6efd;
+	display: none;
+}
+.final_pw_ck{
+	margin-left: 300px;
+    color: #0d6efd;
+	display: none;
+}
+.final_pwck_ck{
+	margin-left: 300px;
+    color: #0d6efd;
+	display: none;
+}
+.final_name_ck{
+	margin-left: 300px;
+    color: #0d6efd;
+	display: none;
+}
+.final_tel_ck{
+	margin-left: 300px;
+    color: #0d6efd;
+	display: none;
+}
+.final_mail_ck{
+	margin-left: 300px;
+    color: #0d6efd;
+	display: none;
+}
+.final_addr_ck{
+	margin-left: 300px;
+    color: #0d6efd;
+	display: none;
+}
+
+/* 중복아이디 존재하지 않는경우 */
+.id_input_re_1{
+	margin-left: 300px;
+	color : green;
+	display : none;
+}
+/* 중복아이디 존재하는 경우 */
+.id_input_re_2{
+	margin-left: 300px;
+	color : red;
+	display : none;
+}
+
+/*비밀번호 확인 일치 유효성검사*/
+.pwck_input_re_1{
+	margin-left: 300px;
+	color: green;
+	display: none;
+}
+.pwck_input_re_2{
+	margin-left: 300px;
+	color: red;
+	display: none;
+}
+
+/* float 속성 해제 */
+.clearfix{
+	clear: both;
+}

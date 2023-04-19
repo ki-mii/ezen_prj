@@ -1,0 +1,98 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.kimi.mapper.AdminMapper">
+  
+	<insert id="goodsEnroll">
+	
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+  		
+  			SELECT product_seq.currval FROM dual
+  		
+  		</selectKey>  	
+  		
+		insert into product(id, name, category, price, origin, volume, alcohol, stock, info, regdate, updatedate)
+		values(product_seq.nextval,#{name},#{category},#{price},#{origin},#{volume},#{alcohol},#{stock},#{info},sysdate,sysdate)
+	  
+	</insert>
+  
+  	<!-- 상품 리스트 -->
+  	<select id="goodsGetList" resultType="com.kimi.model.ProductVO">
+  	
+	  	<![CDATA[
+		select * from(
+		    select rownum as rn, 
+		    	id, name, category, price, origin, volume, alcohol, 
+		    	stock, info, regdate
+		    from product 
+		    where 
+		]]>    
+		
+		    <if test="keyword != null">
+		    
+			    name like '%' || #{keyword} || '%' and
+			    
+		    </if>
+		     
+		<![CDATA[    
+		    rownum <= #{pageNum} * #{amount} 
+		    )
+		where rn > (#{pageNum} -1) * #{amount}	
+  		]]>
+  	
+  	</select>
+  	
+  	<!-- 상품 총 개수 -->
+  	<select id="goodsGetTotal" resultType="int">
+  	
+  		select count(*) from product
+  		
+  		<if test="keyword != null">
+  		
+  			where name like '%' || #{keyword} || '%'
+  		</if>
+  		
+  	</select> 
+  	
+  	<select id="goodsGetDetail" resultType="com.kimi.model.ProductVO">
+  		select id, name, category, price, origin, volume, alcohol, 
+		    	stock, info, regdate
+  		from product where id = #{id}
+  	</select>
+  	
+  	<!-- 상품 정보 수정 -->
+  	<update id="goodsModify">
+  		update product set id=#{id}, name=#{name}, category=#{category}, price=#{price}, origin=#{origin}, 
+  					volume=#{volume}, alcohol=#{alcohol}, stock=#{stock}, info=#{info}, regdate=sysdate, updatedate=sysdate
+  		where id=#{id}
+  	</update>
+  	
+  	<delete id="goodsDelete">
+  		delete from product where id=#{id}
+  	</delete>
+  	
+  	<!-- 이미지 등록 -->
+	<insert id="imageEnroll">
+		insert into image(id, fileName, uploadPath, uuid) values (#{id}, #{fileName}, #{uploadPath}, #{uuid})
+	</insert>
+  	
+  	<!-- 지정 상품 이미지 전체 삭제 --> 
+	<delete id="deleteImageAll">
+	
+		delete FROM image where id = #{id}
+	
+	</delete>
+	
+	<select id="checkFileList" resultType="com.kimi.model.AttachImageVO">
+		
+		select * from image where uploadpath = to_char(sysdate -1, 'yyyy\mm\dd')
+	
+	</select>
+	
+	<!-- 지정 상품 이미지 정보 얻기 -->
+	<select id="getAttachInfo" resultType="com.kimi.model.AttachImageVO">
+	
+		select * from image where id = #{id}
+	
+	</select>
+  </mapper>

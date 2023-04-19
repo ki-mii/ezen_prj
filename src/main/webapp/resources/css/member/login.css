@@ -1,0 +1,30 @@
+@charset "UTF-8";
+*{
+	margin: 0;
+	padding:0;
+}
+
+.wrapper{
+	text-align: center;
+    margin: 30%;
+    margin-top: 150px;
+}
+.logo_wrap{
+	margin: 65px;
+    width: 50%;
+    font-size: 65px;
+    font-weight: 700;
+    text-align: center;
+    padding-left: 100px;
+}
+
+/* 로그인 실패시 경고글 */
+.login_warn{
+	margin-top: 30px;
+    text-align: center;
+    color : red;
+}
+
+#login_button{
+	margin-top: 30px;
+}
